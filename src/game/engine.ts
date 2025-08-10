@@ -8,7 +8,8 @@ import {
   canRotate,
   placePiece, 
   getHardDropRow,
-  addJunkRows
+  addJunkRows,
+  isValidPosition
 } from './board';
 import { rotateShape, getShapeCells } from './shapes';
 import { processCascades } from './gravity';
@@ -194,8 +195,8 @@ export class GameEngine {
       newQueue
     );
     
-    // Check for game over
-    const gameOver = !nextActive || !this.isValidSpawn(cascadeResult.board);
+    // Check for game over - if we can't spawn the next piece, game is over
+    const gameOver = !nextActive;
     
     return {
       ...gameState,
@@ -212,27 +213,20 @@ export class GameEngine {
     };
   }
   
-  private spawnNextPiece(_gameState: GameState, queue: any[]): Piece | undefined {
+  private spawnNextPiece(gameState: GameState, queue: any[]): Piece | undefined {
     if (queue.length === 0 || !this.pieceGenerator) return undefined;
     
     const piece = this.pieceGenerator.generatePiece();
     piece.shape = queue[0];
     
+    // Check if the piece can actually spawn at the spawn position
+    if (!isValidPosition(gameState.board, piece)) {
+      return undefined; // Game over - can't spawn
+    }
+    
     return piece;
   }
   
-  private isValidSpawn(board: any): boolean {
-    // Check if piece can spawn at the top
-    // Simple check: if top rows are not completely filled
-    for (let row = 0; row < 4; row++) {
-      for (let col = 0; col < board[0].length; col++) {
-        if (board[row][col].kind === 'empty') {
-          return true;
-        }
-      }
-    }
-    return false;
-  }
   
   addJunkRows(gameState: GameState, numRows: number): GameState {
     if (numRows <= 0) return gameState;

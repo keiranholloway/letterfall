@@ -162,13 +162,22 @@ export const Solo: React.FC = () => {
   }, [isPlaying, gameState, setGameState]);
   
   return (
-    <div className="solo-game min-h-screen bg-gray-900 text-white">
-      <div className="container mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold text-center mb-8">LetterFall Solo</h1>
-        
-        <div className="flex flex-col lg:flex-row gap-6 items-start">
-          {/* Left Side Panel */}
-          <div className="w-full lg:w-64 space-y-4">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+      {/* Header */}
+      <div className="bg-black/20 backdrop-blur-sm border-b border-purple-500/20">
+        <div className="container mx-auto px-4 py-4">
+          <h1 className="text-4xl font-bold text-center bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+            🅻 LetterFall Solo
+          </h1>
+        </div>
+      </div>
+
+      {/* Main Game Area */}
+      <div className="container mx-auto px-4 py-6">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+          
+          {/* Left Sidebar */}
+          <div className="lg:col-span-1 space-y-4">
             <HUD
               score={gameState.score}
               level={gameState.level}
@@ -178,9 +187,9 @@ export const Solo: React.FC = () => {
             
             <WordsList words={gameState.wordsFound} />
             
-            <div className="bg-gray-800 p-4 rounded-lg">
-              <h3 className="text-lg font-bold mb-3">How to Play</h3>
-              <div className="text-sm space-y-2">
+            <div className="bg-slate-800/60 backdrop-blur-sm border border-slate-600/50 rounded-xl p-4 shadow-xl">
+              <h3 className="text-lg font-semibold mb-3 text-blue-300">How to Play</h3>
+              <div className="text-sm space-y-2 text-slate-300">
                 <p>• Form words horizontally or vertically</p>
                 <p>• Words must be 3+ letters</p>
                 <p>• Longer words = more points</p>
@@ -189,9 +198,9 @@ export const Solo: React.FC = () => {
               </div>
             </div>
             
-            <div className="bg-gray-800 p-4 rounded-lg">
-              <h3 className="text-lg font-bold mb-3">Controls</h3>
-              <div className="text-sm space-y-1">
+            <div className="bg-slate-800/60 backdrop-blur-sm border border-slate-600/50 rounded-xl p-4 shadow-xl">
+              <h3 className="text-lg font-semibold mb-3 text-green-300">Controls</h3>
+              <div className="text-sm space-y-1 text-slate-300">
                 <p>← → Move left/right</p>
                 <p>↓ Soft drop</p>
                 <p>↑/Z Rotate</p>
@@ -200,42 +209,46 @@ export const Solo: React.FC = () => {
             </div>
           </div>
 
-          {/* Game Board */}
-          <div className="flex-1 flex flex-col items-center">
-            <div className="mb-4">
+          {/* Game Board - Center */}
+          <div className="lg:col-span-2 flex flex-col items-center">
+            {/* Game Controls */}
+            <div className="mb-6">
               {!isPlaying && !gameState.over && (
                 <button
                   onClick={startGame}
-                  className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg text-lg"
+                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-4 px-8 rounded-xl text-xl shadow-2xl transform hover:scale-105 transition-all duration-200"
                 >
-                  Start Game
+                  🚀 Start Game
                 </button>
               )}
               
               {isPlaying && (
                 <button
                   onClick={pauseGame}
-                  className="bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-3 px-6 rounded-lg text-lg"
+                  className="bg-gradient-to-r from-yellow-600 to-orange-600 hover:from-yellow-700 hover:to-orange-700 text-white font-bold py-3 px-6 rounded-xl text-lg shadow-xl"
                 >
-                  {gameState.paused ? 'Resume' : 'Pause'}
+                  {gameState.paused ? '▶️ Resume' : '⏸️ Pause'}
                 </button>
               )}
               
               {gameState.over && (
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-red-400 mb-4">Game Over!</div>
-                  <div className="text-lg mb-4">Final Score: {gameState.score.toLocaleString()}</div>
+                <div className="text-center bg-slate-800/80 backdrop-blur-sm rounded-2xl p-6 border border-red-500/30 shadow-2xl">
+                  <div className="text-3xl font-bold text-red-400 mb-4">💀 Game Over!</div>
+                  <div className="text-xl mb-6 text-slate-300">
+                    Final Score: <span className="text-yellow-400 font-bold">{gameState.score.toLocaleString()}</span>
+                  </div>
                   <button
                     onClick={startGame}
-                    className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg text-lg"
+                    className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-bold py-3 px-6 rounded-xl text-lg shadow-xl transform hover:scale-105 transition-all duration-200"
                   >
-                    Play Again
+                    🔄 Play Again
                   </button>
                 </div>
               )}
             </div>
             
-            <div className="game-board-container">
+            {/* Game Board */}
+            <div className="game-board-container bg-slate-900/80 rounded-2xl p-4 border-2 border-purple-500/30 shadow-2xl backdrop-blur-sm">
               <CanvasBoard
                 board={gameState.board}
                 activePiece={gameState.active}
@@ -246,14 +259,15 @@ export const Solo: React.FC = () => {
             </div>
           </div>
 
-          {/* Right Side Panel */}
-          <div className="w-full lg:w-64 space-y-4">
+          {/* Right Sidebar */}
+          <div className="lg:col-span-1">
             <NextQueue queue={gameState.queue} />
           </div>
+          
         </div>
         
         {/* Touch Controls */}
-        <div className="mt-6 lg:hidden">
+        <div className="mt-8 lg:hidden">
           <TouchControls
             onMoveLeft={handleMoveLeft}
             onMoveRight={handleMoveRight}
