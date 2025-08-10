@@ -16,8 +16,9 @@ export const WordsList: React.FC<WordsListProps> = ({ words, className = '' }) =
     );
   }
 
-  // Sort words by length (descending) then alphabetically
-  const sortedWords = [...words].sort((a, b) => {
+  // Remove duplicates and sort words by length (descending) then alphabetically  
+  const uniqueWords = [...new Set(words)];
+  const sortedWords = uniqueWords.sort((a, b) => {
     if (a.length !== b.length) {
       return b.length - a.length;
     }
@@ -36,7 +37,7 @@ export const WordsList: React.FC<WordsListProps> = ({ words, className = '' }) =
 
   return (
     <div className={`bg-gray-800 p-4 rounded-lg ${className}`}>
-      <h3 className="text-lg font-bold mb-3">Words Found ({words.length})</h3>
+      <h3 className="text-lg font-bold mb-3">Words Found ({uniqueWords.length})</h3>
       <div className="max-h-48 overflow-y-auto space-y-2">
         {Object.entries(wordsByLength)
           .sort(([a], [b]) => parseInt(b) - parseInt(a))

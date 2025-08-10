@@ -231,6 +231,49 @@ export const Daily: React.FC = () => {
     <div className="daily-game min-h-screen bg-gray-900 text-white">
       <div className="container mx-auto px-4 py-8">
         <div className="flex flex-col lg:flex-row gap-6">
+          {/* Left Side Panel */}
+          <div className="w-full lg:w-64 space-y-4">
+            <HUD
+              score={gameState.score}
+              level={gameState.level}
+              lines={gameState.linesCleared}
+              combo={gameState.combo}
+            />
+            
+            <div className="bg-purple-800 p-4 rounded-lg">
+              <h3 className="text-lg font-bold mb-3">Daily Word</h3>
+              <div className="text-center">
+                <div className="text-2xl font-bold tracking-wider mb-2">
+                  {dailyWord}
+                </div>
+                <div className="text-sm text-purple-200">
+                  {dailyWordFound ? (
+                    <span className="text-yellow-400">✓ Found! +{dailyBonus}</span>
+                  ) : (
+                    'Form this word for bonus points!'
+                  )}
+                </div>
+                <div className="text-xs text-purple-300 mt-2">
+                  Bonus: {dailyWord.length * 1000} points
+                </div>
+              </div>
+            </div>
+            
+            <NextQueue queue={gameState.queue} />
+            
+            <WordsList words={gameState.wordsFound} />
+            
+            <div className="bg-gray-800 p-4 rounded-lg">
+              <h3 className="text-lg font-bold mb-3">Daily Challenge</h3>
+              <div className="text-sm space-y-2">
+                <p>• Same puzzle for all players</p>
+                <p>• One attempt per day</p>
+                <p>• Find the daily word for huge bonus</p>
+                <p>• Compete on global leaderboard</p>
+              </div>
+            </div>
+          </div>
+
           {/* Game Board */}
           <div className="flex-1 flex flex-col items-center">
             <div className="mb-4 text-center">
@@ -278,49 +321,6 @@ export const Daily: React.FC = () => {
                 height={20}
                 className="mx-auto"
               />
-            </div>
-          </div>
-          
-          {/* Side Panel */}
-          <div className="w-full lg:w-64 space-y-4">
-            <HUD
-              score={gameState.score}
-              level={gameState.level}
-              lines={gameState.linesCleared}
-              combo={gameState.combo}
-            />
-            
-            <div className="bg-purple-800 p-4 rounded-lg">
-              <h3 className="text-lg font-bold mb-3">Daily Word</h3>
-              <div className="text-center">
-                <div className="text-2xl font-bold tracking-wider mb-2">
-                  {dailyWord}
-                </div>
-                <div className="text-sm text-purple-200">
-                  {dailyWordFound ? (
-                    <span className="text-yellow-400">✓ Found! +{dailyBonus}</span>
-                  ) : (
-                    'Form this word for bonus points!'
-                  )}
-                </div>
-                <div className="text-xs text-purple-300 mt-2">
-                  Bonus: {dailyWord.length * 1000} points
-                </div>
-              </div>
-            </div>
-            
-            <NextQueue queue={gameState.queue} />
-            
-            <WordsList words={gameState.wordsFound} />
-            
-            <div className="bg-gray-800 p-4 rounded-lg">
-              <h3 className="text-lg font-bold mb-3">Daily Challenge</h3>
-              <div className="text-sm space-y-2">
-                <p>• Same puzzle for all players</p>
-                <p>• One attempt per day</p>
-                <p>• Find the daily word for huge bonus</p>
-                <p>• Compete on global leaderboard</p>
-              </div>
             </div>
           </div>
         </div>

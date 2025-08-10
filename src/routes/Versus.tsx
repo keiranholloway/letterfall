@@ -416,22 +416,7 @@ export const Versus: React.FC = () => {
         {/* Playing Screen */}
         {state === 'playing' && (
           <div className="flex flex-col lg:flex-row gap-6">
-            {/* Game Board */}
-            <div className="flex-1 flex flex-col items-center">
-              <h1 className="text-3xl font-bold text-center mb-4">Versus Battle</h1>
-              
-              <div className="game-board-container">
-                <CanvasBoard
-                  board={gameState.board}
-                  activePiece={gameState.active}
-                  width={10}
-                  height={20}
-                  className="mx-auto"
-                />
-              </div>
-            </div>
-            
-            {/* Side Panel */}
+            {/* Left Side Panel */}
             <div className="w-full lg:w-64 space-y-4">
               <HUD
                 score={gameState.score}
@@ -459,6 +444,21 @@ export const Versus: React.FC = () => {
               >
                 Disconnect
               </button>
+            </div>
+
+            {/* Game Board */}
+            <div className="flex-1 flex flex-col items-center">
+              <h1 className="text-3xl font-bold text-center mb-4">Versus Battle</h1>
+              
+              <div className="game-board-container">
+                <CanvasBoard
+                  board={gameState.board}
+                  activePiece={gameState.active}
+                  width={10}
+                  height={20}
+                  className="mx-auto"
+                />
+              </div>
             </div>
           </div>
         )}

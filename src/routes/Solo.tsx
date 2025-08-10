@@ -165,6 +165,41 @@ export const Solo: React.FC = () => {
     <div className="solo-game min-h-screen bg-gray-900 text-white">
       <div className="container mx-auto px-4 py-8">
         <div className="flex flex-col lg:flex-row gap-6">
+          {/* Left Side Panel */}
+          <div className="w-full lg:w-64 space-y-4">
+            <HUD
+              score={gameState.score}
+              level={gameState.level}
+              lines={gameState.linesCleared}
+              combo={gameState.combo}
+            />
+            
+            <NextQueue queue={gameState.queue} />
+            
+            <WordsList words={gameState.wordsFound} />
+            
+            <div className="bg-gray-800 p-4 rounded-lg">
+              <h3 className="text-lg font-bold mb-3">How to Play</h3>
+              <div className="text-sm space-y-2">
+                <p>• Form words horizontally or vertically</p>
+                <p>• Words must be 3+ letters</p>
+                <p>• Longer words = more points</p>
+                <p>• ? = wildcard letter</p>
+                <p>• 💣 = bomb clears 3×3 area</p>
+              </div>
+            </div>
+            
+            <div className="bg-gray-800 p-4 rounded-lg">
+              <h3 className="text-lg font-bold mb-3">Controls</h3>
+              <div className="text-sm space-y-1">
+                <p>← → Move left/right</p>
+                <p>↓ Soft drop</p>
+                <p>↑/Z Rotate</p>
+                <p>Space Hard drop</p>
+              </div>
+            </div>
+          </div>
+
           {/* Game Board */}
           <div className="flex-1 flex flex-col items-center">
             <div className="mb-4">
@@ -210,41 +245,6 @@ export const Solo: React.FC = () => {
                 height={20}
                 className="mx-auto"
               />
-            </div>
-          </div>
-          
-          {/* Side Panel */}
-          <div className="w-full lg:w-64 space-y-4">
-            <HUD
-              score={gameState.score}
-              level={gameState.level}
-              lines={gameState.linesCleared}
-              combo={gameState.combo}
-            />
-            
-            <NextQueue queue={gameState.queue} />
-            
-            <WordsList words={gameState.wordsFound} />
-            
-            <div className="bg-gray-800 p-4 rounded-lg">
-              <h3 className="text-lg font-bold mb-3">How to Play</h3>
-              <div className="text-sm space-y-2">
-                <p>• Form words horizontally or vertically</p>
-                <p>• Words must be 3+ letters</p>
-                <p>• Longer words = more points</p>
-                <p>• ? = wildcard letter</p>
-                <p>• 💣 = bomb clears 3×3 area</p>
-              </div>
-            </div>
-            
-            <div className="bg-gray-800 p-4 rounded-lg">
-              <h3 className="text-lg font-bold mb-3">Controls</h3>
-              <div className="text-sm space-y-1">
-                <p>← → Move left/right</p>
-                <p>↓ Soft drop</p>
-                <p>↑/Z Rotate</p>
-                <p>Space Hard drop</p>
-              </div>
             </div>
           </div>
         </div>
