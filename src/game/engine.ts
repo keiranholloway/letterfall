@@ -18,7 +18,7 @@ const DEFAULT_CONFIG: GameConfig = {
   boardWidth: 10,
   boardHeight: 20,
   dropSpeed: 1000, // ms
-  lockDelay: 500, // ms
+  lockDelay: 200, // ms - Reduced for more responsive gameplay
   queueSize: 5,
 };
 
@@ -54,10 +54,13 @@ export class GameEngine {
       return gameState;
     }
     
+    // Clamp deltaTime to prevent large jumps (e.g. from tab switches)
+    const clampedDeltaTime = Math.min(deltaTime, 100);
+    
     let newState = { ...gameState };
     
     // Update drop timer
-    newState.dropTimer += deltaTime;
+    newState.dropTimer += clampedDeltaTime;
     
     // Calculate current drop speed (increases with level)
     const dropInterval = Math.max(50, this.config.dropSpeed - (gameState.level - 1) * 50);
@@ -140,7 +143,7 @@ export class GameEngine {
       } else {
         return {
           ...gameState,
-          lockTimer: gameState.lockTimer + 100, // Increment lock timer
+          lockTimer: gameState.lockTimer + 50, // Increment lock timer more frequently
         };
       }
     }
