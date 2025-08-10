@@ -128,7 +128,7 @@ export const Daily: React.FC = () => {
     }
   }, [dailyWord, gameState, setGameState]);
   
-  // Keyboard controls
+  // Keyboard controls - Updated for v1.1 with up arrow rotation
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
       if (!isPlaying || gameState.over) return;

@@ -284,7 +284,7 @@ export const Versus: React.FC = () => {
     }
   }, [isPlaying, state, gameState, setGameState, sendMessage]);
   
-  // Keyboard controls
+  // Keyboard controls - Updated for v1.1 with up arrow rotation  
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
       if (!isPlaying || state !== 'playing') return;
