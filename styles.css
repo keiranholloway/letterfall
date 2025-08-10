@@ -1,0 +1,21 @@
+
+body { font-family: sans-serif; background: #0b0f14; color: #dbeafe; margin: 0; }
+.topbar { display: flex; justify-content: space-between; padding: 10px; background: #111826; }
+.phone { margin: auto; width: 420px; background: #1a2233; padding: 12px; border-radius: 12px; }
+.modebar { display: flex; gap: 8px; margin-bottom: 8px; }
+.mode { padding: 4px 8px; background: #2b3a55; border-radius: 4px; }
+.mode.active { background: #6ee7ff; color: black; }
+.stage { display: grid; grid-template-columns: 1fr 120px; gap: 10px; }
+.board { background: #0e1625; aspect-ratio: 10/20; border-radius: 6px; overflow: hidden; }
+.grid { display: grid; grid-template-columns: repeat(10, 1fr); grid-template-rows: repeat(20, 1fr); gap: 1px; padding: 4px; }
+.cell { background: #1f2937; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #bcd3ff; font-size: 14px; }
+.cell.word { background: #1a2536; outline: 1px solid #fff3; }
+.cell.junk { background: #111827; color: #6b7280; }
+.panel { background: #111826; padding: 8px; border-radius: 6px; font-size: 12px; }
+.tile { width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center; border-radius: 4px; }
+.tile.correct { background: #22c55e; }
+.tile.present { background: #f59e0b; }
+.tile.absent { background: #374151; }
+.controls { display: grid; grid-template-columns: repeat(5,1fr); gap: 8px; margin-top: 10px; }
+.btn { padding: 8px; border-radius: 6px; background: #2b3a55; color: white; font-weight: bold; border: none; }
+.btn.primary { background: #6ee7ff; color: black; }

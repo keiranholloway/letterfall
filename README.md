@@ -148,6 +148,6 @@ MIT License - see LICENSE file for details
 
 ---
 
-**Play now**: https://your-username.github.io/letterfall/
+**Play now**: https://keiranholloway.github.io/letterfall/
 
 **No downloads, no accounts, no servers - just pure word puzzle fun!**
