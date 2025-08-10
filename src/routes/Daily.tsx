@@ -4,6 +4,7 @@ import { CanvasBoard } from '../components/CanvasBoard';
 import { TouchControls } from '../components/TouchControls';
 import { NextQueue } from '../components/NextQueue';
 import { HUD } from '../components/HUD';
+import { WordsList } from '../components/WordsList';
 import { useGameStore } from '../state/store';
 import { createEmptyBoard } from '../game/board';
 import { SplitMix64 } from '../game/rng';
@@ -146,6 +147,9 @@ export const Daily: React.FC = () => {
           setGameState(gameEngine.moveDown(gameState));
           break;
         case 'ArrowUp':
+          e.preventDefault();
+          setGameState(gameEngine.rotate(gameState));
+          break;
         case ' ':
           e.preventDefault();
           setGameState(gameEngine.hardDrop(gameState));
@@ -178,6 +182,7 @@ export const Daily: React.FC = () => {
       dropTimer: 0,
       lockTimer: 0,
       rng: new SplitMix64(seed),
+      wordsFound: [],
     };
     const initializedState = gameEngine.initGame(newGameState);
     setGameState(initializedState);
@@ -305,6 +310,8 @@ export const Daily: React.FC = () => {
             </div>
             
             <NextQueue queue={gameState.queue} />
+            
+            <WordsList words={gameState.wordsFound} />
             
             <div className="bg-gray-800 p-4 rounded-lg">
               <h3 className="text-lg font-bold mb-3">Daily Challenge</h3>

@@ -4,6 +4,7 @@ import { CanvasBoard } from '../components/CanvasBoard';
 import { TouchControls } from '../components/TouchControls';
 import { NextQueue } from '../components/NextQueue';
 import { HUD } from '../components/HUD';
+import { WordsList } from '../components/WordsList';
 import { useGameStore } from '../state/store';
 import { createEmptyBoard } from '../game/board';
 import { SplitMix64 } from '../game/rng';
@@ -83,6 +84,9 @@ export const Solo: React.FC = () => {
           setGameState(gameEngine.moveDown(gameState));
           break;
         case 'ArrowUp':
+          e.preventDefault();
+          setGameState(gameEngine.rotate(gameState));
+          break;
         case ' ':
           e.preventDefault();
           setGameState(gameEngine.hardDrop(gameState));
@@ -114,6 +118,7 @@ export const Solo: React.FC = () => {
       dropTimer: 0,
       lockTimer: 0,
       rng: new SplitMix64(Date.now()),
+      wordsFound: [],
     };
     const initializedState = gameEngine.initGame(newGameState);
     setGameState(initializedState);
@@ -219,6 +224,8 @@ export const Solo: React.FC = () => {
             
             <NextQueue queue={gameState.queue} />
             
+            <WordsList words={gameState.wordsFound} />
+            
             <div className="bg-gray-800 p-4 rounded-lg">
               <h3 className="text-lg font-bold mb-3">How to Play</h3>
               <div className="text-sm space-y-2">
@@ -235,8 +242,8 @@ export const Solo: React.FC = () => {
               <div className="text-sm space-y-1">
                 <p>← → Move left/right</p>
                 <p>↓ Soft drop</p>
-                <p>↑/Space Hard drop</p>
-                <p>Z Rotate</p>
+                <p>↑/Z Rotate</p>
+                <p>Space Hard drop</p>
               </div>
             </div>
           </div>

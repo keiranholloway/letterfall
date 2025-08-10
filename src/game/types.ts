@@ -30,6 +30,7 @@ export interface GameState {
   dropTimer: number;
   lockTimer: number;
   rng: any; // Will be SplitMix64
+  wordsFound: string[];
 }
 
 export interface GameConfig {

@@ -100,6 +100,7 @@ function createInitialGameState(seed?: number): GameState {
     dropTimer: 0,
     lockTimer: 0,
     rng,
+    wordsFound: [],
   };
 }
 

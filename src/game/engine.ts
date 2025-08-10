@@ -10,7 +10,7 @@ import {
   getHardDropRow,
   addJunkRows
 } from './board';
-import { rotateShape } from './shapes';
+import { rotateShape, getShapeCells } from './shapes';
 import { processCascades } from './gravity';
 import { calculateScore } from './scoring';
 
@@ -99,9 +99,7 @@ export class GameEngine {
   
   rotate(gameState: GameState): GameState {
     const { active } = gameState;
-    if (!active || !canRotate(gameState.board, active)) {
-      return gameState;
-    }
+    if (!active) return gameState;
     
     const newRot = (active.rot + 1) % 4;
     let newShape = active.shape;
@@ -109,9 +107,18 @@ export class GameEngine {
       newShape = rotateShape(newShape);
     }
     
+    // Check if rotation is valid, but allow squares to always rotate
+    const isSquare = this.isSquareShape(active.shape);
+    if (!isSquare && !canRotate(gameState.board, active)) {
+      return gameState;
+    }
+    
+    // Rotate the letters along with the shape
+    const rotatedLetters = this.rotateLetters(active.letters, active.shape);
+    
     return {
       ...gameState,
-      active: { ...active, rot: newRot, shape: newShape },
+      active: { ...active, rot: newRot, shape: newShape, letters: rotatedLetters },
       lockTimer: 0, // Reset lock timer on successful rotation
     };
   }
@@ -198,6 +205,7 @@ export class GameEngine {
       linesCleared: newLinesCleared,
       over: gameOver || false,
       lockTimer: 0,
+      wordsFound: [...gameState.wordsFound, ...cascadeResult.wordsCleared],
     };
   }
   
@@ -232,5 +240,37 @@ export class GameEngine {
       ...gameState,
       board: newBoard,
     };
+  }
+  
+  private isSquareShape(shape: any): boolean {
+    // Check if it's a 2x2 square (O-piece)
+    return shape.length === 2 && shape[0].length === 2 &&
+           shape.every((row: any[]) => row.every((cell: boolean) => cell === true));
+  }
+  
+  private rotateLetters(letters: string[], shape: any): string[] {
+    // Get the positions of the shape cells
+    const cells = getShapeCells(shape);
+    
+    // Create rotated positions (90 degrees clockwise)
+    const rotatedCells = cells.map(([row, col]) => [col, shape.length - 1 - row]);
+    
+    // Get the rotated shape to map positions correctly
+    const rotatedShape = rotateShape(shape);
+    const rotatedShapeCells = getShapeCells(rotatedShape);
+    
+    // Map the old positions to new positions and rearrange letters
+    const rotatedLetters = new Array(letters.length);
+    for (let i = 0; i < cells.length; i++) {
+      const newPos = rotatedCells[i];
+      
+      // Find where this new position should go in the rotated shape cell order
+      const newIndex = rotatedShapeCells.findIndex(([r, c]) => r === newPos[0] && c === newPos[1]);
+      if (newIndex !== -1) {
+        rotatedLetters[newIndex] = letters[i];
+      }
+    }
+    
+    return rotatedLetters.filter(letter => letter !== undefined);
   }
 }

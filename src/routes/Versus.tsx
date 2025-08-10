@@ -4,6 +4,7 @@ import { CanvasBoard } from '../components/CanvasBoard';
 import { TouchControls } from '../components/TouchControls';
 import { NextQueue } from '../components/NextQueue';
 import { HUD } from '../components/HUD';
+import { WordsList } from '../components/WordsList';
 import { QRExchange } from '../components/QRExchange';
 import { useGameStore } from '../state/store';
 import { createEmptyBoard } from '../game/board';
@@ -224,6 +225,7 @@ export const Versus: React.FC = () => {
       dropTimer: 0,
       lockTimer: 0,
       rng: new SplitMix64(seed),
+      wordsFound: [],
     };
     const initializedState = gameEngine.initGame(newGameState);
     setGameState(initializedState);
@@ -301,6 +303,9 @@ export const Versus: React.FC = () => {
           handleSoftDrop();
           break;
         case 'ArrowUp':
+          e.preventDefault();
+          handleRotate();
+          break;
         case ' ':
           e.preventDefault();
           handleHardDrop();
@@ -438,6 +443,8 @@ export const Versus: React.FC = () => {
               />
               
               <NextQueue queue={gameState.queue} />
+              
+              <WordsList words={gameState.wordsFound} />
               
               <div className="bg-gray-800 p-4 rounded-lg">
                 <h3 className="text-lg font-bold mb-3">Opponent</h3>
