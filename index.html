@@ -28,6 +28,30 @@
     
     <div id="root"></div>
     
+    <script>
+      // Fallback to hide loading screen if React fails to load
+      setTimeout(() => {
+        const loading = document.getElementById('loading');
+        const root = document.getElementById('root');
+        if (loading && (!root || !root.children.length)) {
+          loading.innerHTML = `
+            <div class="loading-logo">🅻 LetterFall</div>
+            <div style="color: #ff6b6b; margin-top: 20px; text-align: center;">
+              <div>Loading failed. Please refresh the page.</div>
+              <button onclick="window.location.reload()" style="
+                margin-top: 10px; 
+                padding: 10px 20px; 
+                background: #4a90e2; 
+                color: white; 
+                border: none; 
+                border-radius: 5px; 
+                cursor: pointer;
+              ">Refresh</button>
+            </div>
+          `;
+        }
+      }, 10000); // Show error after 10 seconds
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

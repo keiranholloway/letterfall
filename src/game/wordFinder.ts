@@ -6,19 +6,52 @@ let wordSet: Set<string> = new Set();
 
 export async function loadDictionary(): Promise<void> {
   try {
-    const response = await fetch('/letterfall/src/assets/words.txt');
-    const text = await response.text();
-    const words = text.trim().split('\n').map(w => w.trim().toUpperCase());
-    wordSet = new Set(words);
+    // Try multiple possible paths for the dictionary file
+    const possiblePaths = [
+      '/letterfall/words.txt',
+      '/letterfall/assets/words.txt',
+      'words.txt',
+      'assets/words.txt'
+    ];
+    
+    let loaded = false;
+    for (const path of possiblePaths) {
+      try {
+        const response = await fetch(path);
+        if (response.ok) {
+          const text = await response.text();
+          const words = text.trim().split('\n').map(w => w.trim().toUpperCase());
+          wordSet = new Set(words);
+          console.log(`Dictionary loaded from ${path} with ${words.length} words`);
+          loaded = true;
+          break;
+        }
+      } catch (e) {
+        // Try next path
+        continue;
+      }
+    }
+    
+    if (!loaded) {
+      throw new Error('No dictionary path worked');
+    }
   } catch (error) {
-    console.warn('Failed to load dictionary, using fallback');
-    // Fallback word list
+    console.warn('Failed to load dictionary, using fallback:', error);
+    // Fallback word list - expanded for better gameplay
     wordSet = new Set([
       'THE', 'AND', 'FOR', 'ARE', 'BUT', 'NOT', 'YOU', 'ALL', 'CAN', 'HER',
       'WAS', 'ONE', 'OUR', 'OUT', 'DAY', 'GET', 'HAS', 'HIM', 'HIS', 'HOW',
       'ITS', 'MAY', 'NEW', 'NOW', 'OLD', 'SEE', 'TWO', 'WAY', 'WHO', 'BOY',
-      'DID', 'ITS', 'LET', 'PUT', 'SAY', 'SHE', 'TOO', 'USE'
+      'DID', 'LET', 'PUT', 'SAY', 'SHE', 'TOO', 'USE', 'MAN', 'GOT', 'HIM',
+      'BAD', 'BIG', 'CAT', 'DOG', 'EAR', 'EYE', 'FAR', 'FUN', 'GUN', 'HAD',
+      'JOB', 'KEY', 'LAW', 'LOT', 'MAP', 'NET', 'OIL', 'PAN', 'RED', 'RUN',
+      'SUN', 'TAX', 'TOP', 'VAN', 'WAR', 'WIN', 'YES', 'ZOO', 'ACE', 'AGE',
+      'ARM', 'ART', 'BAG', 'BAR', 'BAT', 'BED', 'BEE', 'BOX', 'BUS', 'CAR',
+      'COW', 'CUP', 'EGG', 'END', 'FAN', 'FLY', 'FOX', 'GAS', 'HAT', 'ICE',
+      'JAM', 'JOY', 'KID', 'LEG', 'LIP', 'MOM', 'MUD', 'NUT', 'PEN', 'PIG',
+      'RAT', 'SEA', 'SKY', 'TEA', 'TOY', 'TREE', 'WORD', 'GAME', 'PLAY', 'TIME'
     ]);
+    console.log('Using fallback dictionary with', wordSet.size, 'words');
   }
 }
 

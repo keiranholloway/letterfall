@@ -9,16 +9,6 @@ import './index.css';
 
 function App() {
   useEffect(() => {
-    // Hide loading screen
-    const loading = document.getElementById('loading');
-    if (loading) {
-      loading.style.opacity = '0';
-      loading.style.transition = 'opacity 0.3s ease';
-      setTimeout(() => {
-        loading.style.display = 'none';
-      }, 300);
-    }
-
     // Register service worker
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('/letterfall/sw.js')
