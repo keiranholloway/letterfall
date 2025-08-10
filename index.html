@@ -1,0 +1,65 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>LetterFall • Concept Mockup</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="app">
+    <header class="topbar">
+      <div class="brand">🅻 LetterFall</div>
+      <div class="status">
+        <span class="bt-status" title="Bluetooth status">🟦 BT</span>
+        <span class="score">Score: <strong>00240</strong></span>
+        <span class="timer">01:12</span>
+      </div>
+    </header>
+    <main class="phone">
+      <div class="modebar">
+        <span class="mode active">Versus</span>
+        <span class="mode">Solo</span>
+        <span class="mode">Daily</span>
+      </div>
+      <section class="stage">
+        <div class="board" id="board"></div>
+        <aside class="right-rail">
+          <div class="panel next">
+            <h3>Next</h3>
+            <div class="queue" id="queue"></div>
+          </div>
+          <div class="panel wordle">
+            <h3>Daily Word</h3>
+            <div class="wordle-row">
+              <span class="tile correct">L</span>
+              <span class="tile present">E</span>
+              <span class="tile absent">M</span>
+              <span class="tile present">O</span>
+              <span class="tile absent">N</span>
+            </div>
+            <p class="hint">1 letter in correct spot, 2 present.</p>
+          </div>
+          <div class="panel attacks">
+            <h3>Attacks</h3>
+            <ul class="attack-list">
+              <li>⭐ 5-letter word = +2 junk</li>
+              <li>🔥 7+ letters = +5 junk</li>
+              <li>💣 Bomb clears 3×3</li>
+            </ul>
+          </div>
+        </aside>
+      </section>
+      <footer class="controls">
+        <button class="btn ghost">◀</button>
+        <button class="btn ghost">⟳</button>
+        <button class="btn primary">⤓</button>
+        <button class="btn ghost">⇄</button>
+        <button class="btn ghost">▶</button>
+      </footer>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
