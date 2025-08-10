@@ -24,11 +24,11 @@ const DEFAULT_CONFIG: GameConfig = {
 
 export class GameEngine {
   private config: GameConfig;
-  private pieceGenerator: PieceGenerator;
+  private pieceGenerator?: PieceGenerator;
   
   constructor(config: Partial<GameConfig> = {}) {
     this.config = { ...DEFAULT_CONFIG, ...config };
-    this.pieceGenerator = new PieceGenerator(null); // Will be set when game starts
+    // Don't initialize pieceGenerator until we have a valid RNG
   }
   
   initGame(gameState: GameState): GameState {
@@ -175,7 +175,7 @@ export class GameEngine {
     
     // Spawn next piece
     const newQueue = [...gameState.queue];
-    if (newQueue.length < this.config.queueSize) {
+    if (newQueue.length < this.config.queueSize && this.pieceGenerator) {
       newQueue.push(this.pieceGenerator.generatePiece().shape);
     }
     
@@ -202,7 +202,7 @@ export class GameEngine {
   }
   
   private spawnNextPiece(_gameState: GameState, queue: any[]): Piece | undefined {
-    if (queue.length === 0) return undefined;
+    if (queue.length === 0 || !this.pieceGenerator) return undefined;
     
     const piece = this.pieceGenerator.generatePiece();
     piece.shape = queue[0];
