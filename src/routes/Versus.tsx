@@ -415,52 +415,57 @@ export const Versus: React.FC = () => {
         
         {/* Playing Screen */}
         {state === 'playing' && (
-          <div className="flex flex-col lg:flex-row gap-6">
-            {/* Left Side Panel */}
-            <div className="w-full lg:w-64 space-y-4">
-              <HUD
-                score={gameState.score}
-                level={gameState.level}
-                lines={gameState.linesCleared}
-                combo={gameState.combo}
-                connectionStatus={connection.status}
-                incomingAttacks={incomingAttacks}
-              />
-              
-              <NextQueue queue={gameState.queue} />
-              
-              <WordsList words={gameState.wordsFound} />
-              
-              <div className="bg-gray-800 p-4 rounded-lg">
-                <h3 className="text-lg font-bold mb-3">Opponent</h3>
-                <div className="text-2xl font-bold text-red-400">
-                  {opponentScore.toLocaleString()}
+          <>
+            <h1 className="text-3xl font-bold text-center mb-8">Versus Battle</h1>
+            
+            <div className="flex flex-col lg:flex-row gap-6 items-start">
+              {/* Left Side Panel */}
+              <div className="w-full lg:w-64 space-y-4">
+                <HUD
+                  score={gameState.score}
+                  level={gameState.level}
+                  lines={gameState.linesCleared}
+                  combo={gameState.combo}
+                  connectionStatus={connection.status}
+                  incomingAttacks={incomingAttacks}
+                />
+                
+                <WordsList words={gameState.wordsFound} />
+                
+                <div className="bg-gray-800 p-4 rounded-lg">
+                  <h3 className="text-lg font-bold mb-3">Opponent</h3>
+                  <div className="text-2xl font-bold text-red-400">
+                    {opponentScore.toLocaleString()}
+                  </div>
+                </div>
+                
+                <button
+                  onClick={backToSetup}
+                  className="w-full bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded"
+                >
+                  Disconnect
+                </button>
+              </div>
+
+              {/* Game Board */}
+              <div className="flex-1 flex flex-col items-center">
+                <div className="game-board-container">
+                  <CanvasBoard
+                    board={gameState.board}
+                    activePiece={gameState.active}
+                    width={10}
+                    height={20}
+                    className="mx-auto"
+                  />
                 </div>
               </div>
-              
-              <button
-                onClick={backToSetup}
-                className="w-full bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded"
-              >
-                Disconnect
-              </button>
-            </div>
 
-            {/* Game Board */}
-            <div className="flex-1 flex flex-col items-center">
-              <h1 className="text-3xl font-bold text-center mb-4">Versus Battle</h1>
-              
-              <div className="game-board-container">
-                <CanvasBoard
-                  board={gameState.board}
-                  activePiece={gameState.active}
-                  width={10}
-                  height={20}
-                  className="mx-auto"
-                />
+              {/* Right Side Panel */}
+              <div className="w-full lg:w-64 space-y-4">
+                <NextQueue queue={gameState.queue} />
               </div>
             </div>
-          </div>
+          </>
         )}
         
         {/* Finished Screen */}

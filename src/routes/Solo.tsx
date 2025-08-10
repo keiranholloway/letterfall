@@ -164,7 +164,9 @@ export const Solo: React.FC = () => {
   return (
     <div className="solo-game min-h-screen bg-gray-900 text-white">
       <div className="container mx-auto px-4 py-8">
-        <div className="flex flex-col lg:flex-row gap-6">
+        <h1 className="text-3xl font-bold text-center mb-8">LetterFall Solo</h1>
+        
+        <div className="flex flex-col lg:flex-row gap-6 items-start">
           {/* Left Side Panel */}
           <div className="w-full lg:w-64 space-y-4">
             <HUD
@@ -173,8 +175,6 @@ export const Solo: React.FC = () => {
               lines={gameState.linesCleared}
               combo={gameState.combo}
             />
-            
-            <NextQueue queue={gameState.queue} />
             
             <WordsList words={gameState.wordsFound} />
             
@@ -203,8 +203,6 @@ export const Solo: React.FC = () => {
           {/* Game Board */}
           <div className="flex-1 flex flex-col items-center">
             <div className="mb-4">
-              <h1 className="text-3xl font-bold text-center mb-4">LetterFall Solo</h1>
-              
               {!isPlaying && !gameState.over && (
                 <button
                   onClick={startGame}
@@ -246,6 +244,11 @@ export const Solo: React.FC = () => {
                 className="mx-auto"
               />
             </div>
+          </div>
+
+          {/* Right Side Panel */}
+          <div className="w-full lg:w-64 space-y-4">
+            <NextQueue queue={gameState.queue} />
           </div>
         </div>
         

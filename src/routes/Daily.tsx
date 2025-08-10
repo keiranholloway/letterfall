@@ -230,7 +230,44 @@ export const Daily: React.FC = () => {
   return (
     <div className="daily-game min-h-screen bg-gray-900 text-white">
       <div className="container mx-auto px-4 py-8">
-        <div className="flex flex-col lg:flex-row gap-6">
+        <div className="mb-4 text-center">
+          <h1 className="text-3xl font-bold mb-2">Daily Challenge</h1>
+          <p className="text-gray-400">
+            {new Date().toLocaleDateString('en-US', { 
+              weekday: 'long', 
+              year: 'numeric', 
+              month: 'long', 
+              day: 'numeric' 
+            })}
+          </p>
+          
+          {!isPlaying && !gameState.over && (
+            <div className="mt-4">
+              <button
+                onClick={startGame}
+                disabled={hasPlayedToday && !gameState.over}
+                className="bg-purple-600 hover:bg-purple-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white font-bold py-3 px-6 rounded-lg text-lg"
+              >
+                {hasPlayedToday && !gameState.over ? 'Already Played Today' : 'Start Daily Challenge'}
+              </button>
+            </div>
+          )}
+          
+          {gameState.over && (
+            <div className="mt-4 text-center">
+              <div className="text-2xl font-bold text-red-400 mb-2">Challenge Complete!</div>
+              <div className="text-lg mb-2">Final Score: {gameState.score.toLocaleString()}</div>
+              {dailyWordFound && (
+                <div className="text-lg text-yellow-400 mb-4">
+                  Daily Word Bonus: +{dailyBonus.toLocaleString()}
+                </div>
+              )}
+              <p className="text-gray-400">Come back tomorrow for a new challenge!</p>
+            </div>
+          )}
+        </div>
+        
+        <div className="flex flex-col lg:flex-row gap-6 items-start">
           {/* Left Side Panel */}
           <div className="w-full lg:w-64 space-y-4">
             <HUD
@@ -259,8 +296,6 @@ export const Daily: React.FC = () => {
               </div>
             </div>
             
-            <NextQueue queue={gameState.queue} />
-            
             <WordsList words={gameState.wordsFound} />
             
             <div className="bg-gray-800 p-4 rounded-lg">
@@ -276,43 +311,6 @@ export const Daily: React.FC = () => {
 
           {/* Game Board */}
           <div className="flex-1 flex flex-col items-center">
-            <div className="mb-4 text-center">
-              <h1 className="text-3xl font-bold mb-2">Daily Challenge</h1>
-              <p className="text-gray-400">
-                {new Date().toLocaleDateString('en-US', { 
-                  weekday: 'long', 
-                  year: 'numeric', 
-                  month: 'long', 
-                  day: 'numeric' 
-                })}
-              </p>
-              
-              {!isPlaying && !gameState.over && (
-                <div className="mt-4">
-                  <button
-                    onClick={startGame}
-                    disabled={hasPlayedToday && !gameState.over}
-                    className="bg-purple-600 hover:bg-purple-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white font-bold py-3 px-6 rounded-lg text-lg"
-                  >
-                    {hasPlayedToday && !gameState.over ? 'Already Played Today' : 'Start Daily Challenge'}
-                  </button>
-                </div>
-              )}
-              
-              {gameState.over && (
-                <div className="mt-4 text-center">
-                  <div className="text-2xl font-bold text-red-400 mb-2">Challenge Complete!</div>
-                  <div className="text-lg mb-2">Final Score: {gameState.score.toLocaleString()}</div>
-                  {dailyWordFound && (
-                    <div className="text-lg text-yellow-400 mb-4">
-                      Daily Word Bonus: +{dailyBonus.toLocaleString()}
-                    </div>
-                  )}
-                  <p className="text-gray-400">Come back tomorrow for a new challenge!</p>
-                </div>
-              )}
-            </div>
-            
             <div className="game-board-container">
               <CanvasBoard
                 board={gameState.board}
@@ -322,6 +320,11 @@ export const Daily: React.FC = () => {
                 className="mx-auto"
               />
             </div>
+          </div>
+
+          {/* Right Side Panel */}
+          <div className="w-full lg:w-64 space-y-4">
+            <NextQueue queue={gameState.queue} />
           </div>
         </div>
         
