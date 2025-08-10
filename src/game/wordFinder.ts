@@ -64,13 +64,25 @@ export function findWords(board: Board): WordMatch[] {
   
   // Find horizontal words
   for (let row = 0; row < board.length; row++) {
-    words.push(...findWordsInLine(board[row], row, 'horizontal'));
+    const horizontalWords = findWordsInLine(board[row], row, 'horizontal');
+    words.push(...horizontalWords);
   }
   
   // Find vertical words
   for (let col = 0; col < board[0].length; col++) {
     const column = board.map(row => row[col]);
-    words.push(...findWordsInLine(column, col, 'vertical'));
+    const verticalWords = findWordsInLine(column, col, 'vertical');
+    words.push(...verticalWords);
+  }
+  
+  // Debug logging
+  if (words.length > 0) {
+    const horizontal = words.filter(w => w.direction === 'horizontal');
+    const vertical = words.filter(w => w.direction === 'vertical');
+    console.log(`Found ${words.length} total words: ${horizontal.length} horizontal, ${vertical.length} vertical`);
+    words.forEach(word => {
+      console.log(`${word.direction}: "${word.word}" at`, word.cells);
+    });
   }
   
   return words;
